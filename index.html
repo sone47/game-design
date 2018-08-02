@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>JS Bin</title>
+  <title>GUESS</title>
 </head>
 <body>
   <input id='input'></input>
@@ -20,32 +20,41 @@
     const input = document.querySelector('#input');
     const tip = document.querySelector('#tip');
 
-    guessBtn.addEventListener('click', () => {
-      const value = Number(input.value);
-      let tipValue = '';
-      if(value !== randomNumber) {
-        if(value < randomNumber) {
-          tipValue = TIPS[0];
-        } else {
-          tipValue = TIPS[2];
-        }
-
-        if(--remainChances) {
-          tipValue += 'You remain ' + remainChances + ' chances.';
-        } else {
-          tipValue = 'Opps! You don\'t have any chances now! But you can restart now.';
-          gameOver();
-        }
-      } else {
-        tipValue = TIPS[1];
-        gameOver();
+    guessBtn.addEventListener('click', guessComparing);
+    input.addEventListener('keydown', e => {
+      if(e.keyCode === 13) {
+        guessComparing();
       }
-      tip.textContent = tipValue;
     });
-
     startBtn.addEventListener('click', start);
 
+    function guessComparing() {
+      if(!guessBtn.disabled) {
+        const inputValue = Number(input.value);
+        remainChances = remainChances - 1;
+        let tipValue = '';
+        if(remainChances) {
+          tipValue = 'You remain ' + remainChances + ' chances.';
+
+          if(inputValue < randomNumber) {
+            tipValue = TIPS[0] + tipValue;
+          } else if(inputValue > randomNumber) {
+            tipValue = TIPS[2] + tipValue;
+          } else if(inputValue === randomNumber) {
+            tipValue = TIPS[1];
+            gameOver(true);
+          }
+        } else {
+          tipValue = 'Opps! You missed the last chance! The mystery number is ' + randomNumber + '. You can restart and guess again.';
+          gameOver(false);
+        }
+        tip.textContent = tipValue;
+      }
+    }
+
     function start() {
+      tip.textContent = '';
+      input.value = '';
       randomNumber = getRandomNumber();
       remainChances = CHANCES_NUMBER;
       guessBtn.disabled = false;
@@ -57,7 +66,7 @@
       return Math.ceil(Math.random() * NUMBER_RANGE);
     }
 
-    function gameOver() {
+    function gameOver(won) {
       guessBtn.disabled = true;
     }
   </script>
