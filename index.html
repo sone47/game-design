@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+</head>
+<body>
+  <input id='input'></input>
+  <input type='button' value='GUESS' id='guess-btn' disabled>
+  <input type='button' value='START' id='start-btn'>
+  <p id='tip'></p>
+  <script>
+    const NUMBER_RANGE = 100;
+    const CHANCES_NUMBER = 10;
+    const TIPS = ['Too low!', 'Correct!', 'Too high!'];
+
+    const guessBtn = document.querySelector('#guess-btn');
+    const startBtn = document.querySelector('#start-btn');
+    const input = document.querySelector('#input');
+    const tip = document.querySelector('#tip');
+
+    guessBtn.addEventListener('click', () => {
+      const value = Number(input.value);
+      let tipValue = '';
+      if(value !== randomNumber) {
+        if(value < randomNumber) {
+          tipValue = TIPS[0];
+        } else {
+          tipValue = TIPS[2];
+        }
+
+        if(--remainChances) {
+          tipValue += 'You remain ' + remainChances + ' chances.';
+        } else {
+          tipValue = 'Opps! You don\'t have any chances now! But you can restart now.';
+          gameOver();
+        }
+      } else {
+        tipValue = TIPS[1];
+        gameOver();
+      }
+      tip.textContent = tipValue;
+    });
+
+    startBtn.addEventListener('click', start);
+
+    function start() {
+      randomNumber = getRandomNumber();
+      remainChances = CHANCES_NUMBER;
+      guessBtn.disabled = false;
+
+      console.log(randomNumber);
+    }
+
+    function getRandomNumber() {
+      return Math.ceil(Math.random() * NUMBER_RANGE);
+    }
+
+    function gameOver() {
+      guessBtn.disabled = true;
+    }
+  </script>
+</body>
+</html>
