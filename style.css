@@ -1,0 +1,31 @@
+#number-guessing {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.action-place {
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#input {
+  width: 100%;
+  outline: none;
+}
+
+.btn {
+  width: 50%;
+  margin-top: 5px;
+}
+
+#tip {
+  width: 100%;
+  text-align: center;
+}

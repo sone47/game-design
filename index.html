@@ -4,12 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>GUESS</title>
+  <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
 <body>
-  <input id='input' disabled></input>
-  <input type='button' value='GUESS' id='guess-btn' disabled>
-  <input type='button' value='START' id='start-btn'>
-  <p id='tip'></p>
+  <div id='number-guessing'>
+      <div class='action-place'>
+        <input id='input' disabled></input>
+        <input type='button' value='GUESS' class='btn' id='guess-btn' disabled>
+        <input type='button' value='START' class='btn' id='start-btn'>
+      </div>
+      <p id='tip'></p>
+  </div>
 </body>
 </html>
