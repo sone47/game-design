@@ -10,20 +10,21 @@ class Game {
     this.init(canvas, options);
   };
 
-  async init(canvas, options) {
+  init(canvas, options) {
     const { width, height, backgroundColor, images } = options;
     canvas.width = width;
     canvas.height = height;
-    const context = canvas.getContext('2d');
-    this.context = context;
 
-    this.drawBackground(backgroundColor);
-    await this.loadResource(images);
+    const context = canvas.getContext('2d');
+    this.canvas = canvas;
+    this.context = context;
+    this.images = images;
+    this.background = backgroundColor;
   };
 
-  drawBackground(color) {
+  drawBackground() {
     const context = this.context;
-    context.fillStyle = color;
+    context.fillStyle = this.background;
     context.fillRect(0, 0, width, height);
   };
 
@@ -50,5 +51,11 @@ class Game {
         image.onload = image.onerror = loadFun.bind(null, image, resolve);
       });
     });
+  }
+
+  clear() {
+    const canvas = this.canvas;
+    const context = this.context;
+    context.clearRect(0, 0, canvas.width, canvas.height);
   }
 };

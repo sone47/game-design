@@ -3,33 +3,34 @@ class AlienAttack extends Game {
     super(canvas, options);
   }
 
-  async init(canvas, options) {
-    await super.init(canvas, options);
+  init(canvas, options) {
+    super.init(canvas, options);
 
     const { width, height } = options;
-    this.drawAlien({
-      width: 100,
-      height: 100,
-      x: (width - 100) / 2,
-      y: 250
-    });
-    this.drawAircraft({
-      width: 100,
-      height: 100,
-      x: (width - 100) / 2,
-      y: height - 200
+    const ctx = this.context;
+    this.loadResource(this.images).then(() => {
+      this.ufo = new EImage(ctx, {
+        image: this.gameImages['ufo.png'],
+        width: 100,
+        height: 100,
+        x: (width - 100) / 2,
+        y: 200
+      });
+      this.aircraft = new EImage(ctx, {
+        image: this.gameImages['aircraft.png'],
+        width: 100,
+        height: 100,
+        x: (width - 100) / 2,
+        y: height - 200
+      });
+
+      this.render();
     });
   }
 
-  drawAlien(attrs) {
-    const { width, height, x, y } = attrs;
-    const ctx = this.context;
-    ctx.drawImage(this.gameImages['ufo.png'], x, y, width, height);
-  }
-
-  drawAircraft(attrs) {
-    const { width, height, x, y } = attrs;
-    const ctx = this.context;
-    ctx.drawImage(this.gameImages['aircraft.png'], x, y, width, height);
+  render() {
+    this.drawBackground();
+    this.ufo.render();
+    this.aircraft.render();
   }
 }
