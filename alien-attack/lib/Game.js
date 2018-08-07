@@ -7,10 +7,10 @@ class Game {
       images: []
     };
     options = Object.assign({}, defaultOptions, options);
-    this.init(canvas, options);
+    this._init(canvas, options);
   };
 
-  init(canvas, options) {
+  _init(canvas, options) {
     const { width, height, backgroundColor, images } = options;
     canvas.width = width;
     canvas.height = height;
@@ -20,6 +20,7 @@ class Game {
     this.context = context;
     this.images = images;
     this.background = backgroundColor;
+    this.events = new Event();
   };
 
   drawBackground() {
