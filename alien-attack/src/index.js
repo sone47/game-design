@@ -1,3 +1,4 @@
+const startBtn = document.querySelector('#game-start-btn');
 const canvas = document.querySelector('#canvas');
 const canvasComputedStyle = window.getComputedStyle(canvas);
 const width = parseInt(canvasComputedStyle.width) * 2;
