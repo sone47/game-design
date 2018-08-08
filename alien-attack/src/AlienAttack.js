@@ -4,6 +4,10 @@ class AlienAttack extends Game {
     this.init(options);
   }
 
+  gameStart() {
+    this.listenEvent();
+  }
+
   init(options) {
     const { width, height } = options;
     const ctx = this.context;
@@ -32,8 +36,15 @@ class AlienAttack extends Game {
         radius: 8,
         fill: 'rgb(24, 144, 255)'
       });
-
-      this.listenEvent();
+      this.tip = new Text(ctx, {
+        text: '',
+        fill: '#fff',
+        fontSize: 36,
+        width: 100,
+        height: 100,
+        x: 100,
+        y: 100
+      });
 
       this.render();
     });
@@ -63,9 +74,33 @@ class AlienAttack extends Game {
   }
 
   fire() {
+    const x = this.aircraft.attrs.x + this.aircraft.attrs.width / 2;
     this.bullet.setAttrs({
-      x: this.aircraft.attrs.x + this.aircraft.attrs.width / 2,
+      x,
       y: this.ufo.attrs.y + this.ufo.attrs.height / 2
+    });
+
+    if(this.inRange(x)) {
+      this.shootSuccess();
+    } else {
+      this.missTarget();
+    }
+  }
+
+  inRange(position) {
+    const { x, width } = this.ufo.attrs;
+    return position >= x && position <= x + width;
+  }
+
+  shootSuccess() {
+    this.tip.setAttrs({
+      text: 'You shot the ufo!!!'
+    });
+  }
+
+  missTarget() {
+    this.tip.setAttrs({
+      text: 'You missed it.'
     });
   }
 
@@ -76,5 +111,6 @@ class AlienAttack extends Game {
     this.ufo.render();
     this.aircraft.render();
     this.bullet.render();
+    this.tip.render();
   }
 }

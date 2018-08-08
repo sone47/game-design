@@ -10,3 +10,8 @@ const game = new AlienAttack(canvas, {
   backgroundColor: '#272727',
   images: ['./images/ufo.png', './images/aircraft.png']
 });
+
+startBtn.addEventListener('click', () => {
+  game.gameStart();
+  startBtn.disabled = true;
+});
