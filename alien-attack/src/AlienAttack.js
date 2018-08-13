@@ -77,13 +77,29 @@ class AlienAttack extends Game {
     const x = this.aircraft.attrs.x + this.aircraft.attrs.width / 2;
     this.bullet.setAttrs({
       x,
-      y: this.ufo.attrs.y + this.ufo.attrs.height / 2
+      y: this.aircraft.attrs.y
     });
 
-    if(this.inRange(x)) {
-      this.shootSuccess();
+    const inRange = this.inRange(x);
+    const targetY = inRange ? this.ufo.attrs.y + this.ufo.attrs.height / 2 : -this.bullet.attrs.radius;
+    this.shootAlien(inRange, targetY);
+  }
+
+  shootAlien(inRange, targetY) {
+    const y = this.bullet.attrs.y;
+    const step = 20;
+
+    if(y > targetY) {
+      this.render();
+      this.bullet.setAttrs({ y: y - step });
+      requestAnimationFrame(this.shootAlien.bind(this, inRange, targetY));
     } else {
-      this.missTarget();
+      if(inRange) {
+        this.shootSuccess();
+      } else {
+        this.missTarget();
+      }
+      this.render();
     }
   }
 
